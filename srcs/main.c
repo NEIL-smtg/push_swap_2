@@ -12,27 +12,27 @@
 
 #include "push_swap.h"
 
-void	print_stack(t_stack *a, t_stack *b)
-{
-	ft_printf("%6c\t%14c\n", 'a', 'b');
-	while (1)
-	{
-		if (!a && !b)
-			return ;
-		if (a)
-			ft_printf("|%11d  |\t|", a->pos);
-		else
-			ft_printf("|%11c  |\t|", 'n');
-		if (b)
-			ft_printf("%11d  |\n", b->pos);
-		else
-			ft_printf("%11c  |\n", 'n', 'n');
-		if (a)
-			a = a->next;
-		if (b)
-			b = b->next;
-	}
-}
+// void	print_stack(t_stack *a, t_stack *b)
+// {
+// 	ft_printf("%6c\t%14c\n", 'a', 'b');
+// 	while (1)
+// 	{
+// 		if (!a && !b)
+// 			return ;
+// 		if (a)
+// 			ft_printf("|%11d  |\t|", a->pos);
+// 		else
+// 			ft_printf("|%11c  |\t|", 'n');
+// 		if (b)
+// 			ft_printf("%11d  |\n", b->pos);
+// 		else
+// 			ft_printf("%11c  |\n", 'n', 'n');
+// 		if (a)
+// 			a = a->next;
+// 		if (b)
+// 			b = b->next;
+// 	}
+// }
 
 int	main(int ac, char **av)
 {
@@ -45,9 +45,8 @@ int	main(int ac, char **av)
 	{
 		a = ft_check_valid(ac, av);
 		ft_sort(&a, &b);
-		print_stack(a, b);
 		ft_clear_stack(&a);
 		ft_clear_stack(&b);
 	}
-	exit (0);
+	return (0);
 }

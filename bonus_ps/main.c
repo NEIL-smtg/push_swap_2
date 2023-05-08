@@ -6,26 +6,11 @@
 /*   By: suchua <suchua@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 13:18:30 by suchua            #+#    #+#             */
-/*   Updated: 2022/12/06 18:32:32 by suchua           ###   ########.fr       */
+/*   Updated: 2023/05/08 20:27:15 by suchua           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
-
-void	print_stack(t_stack *a, t_stack *b)
-{
-	ft_printf("%6c\t%14c\n", 'a', 'b');
-	while (a)
-	{
-		if (b)
-			ft_printf("|%11d  |\t|%11d  |\n", a->data, b->data);
-		else
-			ft_printf("|%11d  |\t|%11c  |\n", a->data, 'n');
-		a = a->next;
-		if (b)
-			b = b->next;
-	}
-}
 
 void	get_rid_of_nl(char *ops)
 {

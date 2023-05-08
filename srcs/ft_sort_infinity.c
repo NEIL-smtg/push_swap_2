@@ -6,41 +6,11 @@
 /*   By: suchua <suchua@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:48:36 by suchua            #+#    #+#             */
-/*   Updated: 2023/05/08 03:26:54 by suchua           ###   ########.fr       */
+/*   Updated: 2023/05/08 19:58:31 by suchua           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static void	set_pos(t_stack **s, int val)
-{
-	t_stack	*tmp;
-	int		i;
-
-	i = 1;
-	tmp = *s;
-	while (tmp->val != val)
-	{
-		if (tmp->val > val)
-			tmp->pos++;
-		else
-			++i;
-		tmp = tmp->next;
-	}
-	tmp->pos = i;
-}
-
-static void	pre_set_position(t_stack **s)
-{
-	t_stack	*tmp;
-
-	tmp = *s;
-	while (tmp)
-	{
-		set_pos(s, tmp->val);
-		tmp = tmp->next;
-	}
-}
 
 static void	push_smaller_to_b(t_stack **a, t_stack **b)
 {
@@ -48,11 +18,16 @@ static void	push_smaller_to_b(t_stack **a, t_stack **b)
 	int		size;
 
 	size = get_stack_size(*a);
-	mid = size / 2;
+	mid = size / 3;
 	while (size)
 	{
 		if ((*a)->pos < mid)
 			pb(a, b, PRINT);
+		else if ((*a)->pos < 2 * mid)
+		{
+			pb(a, b, PRINT);
+			rb(b, PRINT);
+		}
 		else
 			ra(a, PRINT);
 		--size;
@@ -79,44 +54,39 @@ static void	calc_step(t_stack **s)
 int	get_lowest_pos_in_stack(t_stack *s)
 {
 	int	lowest;
+	int	index;
 
 	lowest = MAX;
 	while (s)
 	{
 		if (s->pos < lowest)
+		{
 			lowest = s->pos;
+			index = s->step;
+		}
 		s = s->next;
 	}
-	return (lowest);
+	return (index);
 }
 
-void	one_final_move(t_stack **a, t_stack **b, int flag, int stop)
+static void	one_final_move(t_stack **a)
 {
-	int		indices;
-	int		i2;
+	int	min;
+	int	size;
 
-	indices = (*a)->pos;
-	while ((*a)->pos != stop)
+	calc_step(a);
+	size = get_stack_size(*a);
+	min = get_lowest_pos_in_stack(*a);
+	if (min >= size / 2)
 	{
-		if ((*a)->pos != indices)
-			flag = 1;
-		else
-			indices++;
-		if (flag)
-		{
-			i2 = (*a)->pos;
-			while ((*a)->pos != stop && (*a)->pos == i2)
-			{
-				++i2;
-				pb(a, b, PRINT);
-			}
-			flag = !flag;
-		}
-		else
+		while ((*a)->pos != 1)
+			rra(a, PRINT);
+	}
+	else
+	{
+		while ((*a)->pos != 1)
 			ra(a, PRINT);
 	}
-	while ((*a)->pos - (*b)->pos == 1)
-		pa(a, b, PRINT);
 }
 
 void	ft_sort_infinity(t_stack **a, t_stack **b)
@@ -132,7 +102,6 @@ void	ft_sort_infinity(t_stack **a, t_stack **b)
 		set_cost(a, b);
 		execute_cheapest_cost(a, b);
 	}
-	ft_printf("start\n");
 	if (!check_sort(a))
-		one_final_move(a, b, 0, get_last_elem((*a))->pos);
+		one_final_move(a);
 }

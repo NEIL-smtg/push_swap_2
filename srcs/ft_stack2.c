@@ -58,8 +58,6 @@ t_stack	*get_dup_stack(t_stack *old)
 	new = ft_calloc(1, sizeof(t_stack));
 	if (!new)
 		return (NULL);
-	new->a_highest = old->a_highest;
-	new->a_highest = old->a_lowest;
 	new->cost_a = old->cost_a;
 	new->cost_b = old->cost_b;
 	new->next = NULL;

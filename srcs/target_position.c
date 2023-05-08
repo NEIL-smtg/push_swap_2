@@ -6,7 +6,7 @@
 /*   By: suchua <suchua@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 04:03:46 by suchua            #+#    #+#             */
-/*   Updated: 2023/05/08 02:35:56 by suchua           ###   ########.fr       */
+/*   Updated: 2023/05/08 19:51:38 by suchua           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,44 +40,33 @@ int	get_lowest_pos(t_stack *a)
 	return (min);
 }
 
-int	switch_target(t_stack **a, int bpos)
+static int	get_target(t_stack **a, int bpos, int t1, int t2)
 {
-	int		needle;
-	t_stack	*tmpa;
-	
-	needle = bpos;
-	while (--needle >= 1)
-	{
-		tmpa = *a;
-		while (tmpa)
-		{
-			if (tmpa->pos == needle)
-				return (tmpa->step);
-			tmpa = tmpa->next;
-		}
-	}
-	return (0);
-}
+	t_stack	*tmp_a;
 
-int	get_target(t_stack **a, int bpos, int b_size)
-{
-	int		needle;
-	int		size;
-	t_stack	*tmpa;
-	
-	size = get_stack_size(*a) + b_size;
-	needle = bpos;
-	while (++needle <= size)
+	tmp_a = *a;
+	while (tmp_a)
 	{
-		tmpa = *a;
-		while (tmpa)
+		if (tmp_a->pos > bpos && tmp_a->pos < t1)
 		{
-			if (tmpa->pos == needle)
-				return (tmpa->step);
-			tmpa = tmpa->next;
+			t1 = tmp_a->pos;
+			t2 = tmp_a->step;
 		}
+		tmp_a = tmp_a->next;
 	}
-	return (0);
+	if (t1 != MAX)
+		return (t2);
+	tmp_a = *a;
+	while (tmp_a)
+	{
+		if (tmp_a->pos < t1)
+		{
+			t1 = tmp_a->pos;
+			t2 = tmp_a->step;
+		}
+		tmp_a = tmp_a->next;
+	}
+	return (t2);
 }
 
 void	set_target_pos(t_stack **a, t_stack **b)
@@ -91,20 +80,7 @@ void	set_target_pos(t_stack **a, t_stack **b)
 	max = get_highest_pos(*a);
 	while (tmpb)
 	{
-		tmpb->a_highest = 0;
-		tmpb->a_lowest = 0;
-		if (tmpb->pos < min)
-		{
-			tmpb->target_pos = 0;
-			tmpb->a_lowest = 1;
-		}
-		else if (tmpb->pos > max)
-		{
-			tmpb->a_highest = 1;
-			tmpb->target_pos = 1;
-		}
-		else
-			tmpb->target_pos = get_target(a, tmpb->pos, get_stack_size(*b));
+		tmpb->target_pos = get_target(a, tmpb->pos, MAX, 0);
 		tmpb = tmpb->next;
 	}
 }

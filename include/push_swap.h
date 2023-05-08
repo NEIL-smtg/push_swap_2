@@ -26,7 +26,6 @@
 	cost_a		=	cost to travel to the correct position in stack a
 	cost_b		=	cost to become the head of the stack
 	target_pos	=	target position in stack a
-	a_highest	=	current node is bigger than all the node in a (true - false)
 */
 typedef struct s_stack
 {
@@ -36,8 +35,6 @@ typedef struct s_stack
 	int				cost_a;
 	int				cost_b;
 	int				target_pos;
-	int				a_highest;
-	int				a_lowest;
 	struct s_stack	*next;
 }	t_stack;
 
@@ -46,10 +43,7 @@ typedef struct s_cost
 	int	cost_a;
 	int	cost_b;
 	int	cheapest;
-	int	a_highest;
-	int	a_lowest;
 }	t_cost;
-
 
 //remove
 void	print_stack(t_stack *a, t_stack *b);
@@ -69,9 +63,6 @@ int		check_dup(t_stack **a, int num);
 int		good_str(char *s);
 int		ft_isspace(char ch);
 void	clear_and_exit(t_stack *s);
-
-//normalized
-void	normalize97(t_stack **a);
 
 //stack
 t_stack	*ft_newstack(int data);
@@ -107,12 +98,13 @@ void	ft_sort3(t_stack **s, int type);
 //sort5
 void	ft_sort5(t_stack **a, t_stack **b);
 
-//sort > 5
+//sort infinity
 void	ft_sort_infinity(t_stack **a, t_stack **b);
 void	set_target_pos(t_stack **a, t_stack **b);
 void	set_cost(t_stack **a, t_stack **b);
 void	execute(t_stack **a, t_stack **b, t_cost *cost);
 void	execute_cheapest_cost(t_stack **a, t_stack **b);
+void	pre_set_position(t_stack **s);
 
 //utils
 int		ft_abs(int nb);

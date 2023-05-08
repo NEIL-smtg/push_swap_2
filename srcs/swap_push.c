@@ -14,22 +14,40 @@
 
 void	sa(t_stack **a, int print)
 {
-	int	tmp;
+	t_stack	*dup1;
+	t_stack	*dup2;
+	t_stack	*third;
 
-	tmp = (*a)->val;
-	(*a)->val = (*a)->next->val;
-	(*a)->next->val = tmp;
+	if (get_stack_size(*a) < 2)
+		return ;
+	dup1 = get_dup_stack(*a);
+	dup2 = get_dup_stack((*a)->next);
+	third = (*a)->next->next;
+	dup2->next = dup1;
+	dup1->next = third;
+	free((*a)->next);
+	free(*a);
+	*a = dup2;
 	if (print)
 		ft_putendl_fd("sa", 1);
 }
 
 void	sb(t_stack **b, int print)
 {
-	int	tmp;
+	t_stack	*dup1;
+	t_stack	*dup2;
+	t_stack	*third;
 
-	tmp = (*b)->val;
-	(*b)->val = (*b)->next->val;
-	(*b)->next->val = tmp;
+	if (get_stack_size(*b) < 2)
+		return ;
+	dup1 = get_dup_stack(*b);
+	dup2 = get_dup_stack((*b)->next);
+	third = (*b)->next->next;
+	dup2->next = dup1;
+	dup1->next = third;
+	free((*b)->next);
+	free(*b);
+	*b = dup2;
 	if (print)
 		ft_putendl_fd("sb", 1);
 }

@@ -1,29 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.h                                          :+:      :+:    :+:   */
+/*   position.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: suchua <suchua@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 13:19:24 by suchua            #+#    #+#             */
-/*   Updated: 2022/12/05 15:47:15 by suchua           ###   ########.fr       */
+/*   Created: 2023/05/08 19:56:45 by suchua            #+#    #+#             */
+/*   Updated: 2023/05/08 19:57:24 by suchua           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_H
-# define CHECKER_H
+#include "push_swap.h"
 
-# include "../Libft/libft.h"
-# include "../srcs/push_swap.h"
-# define STDIN 0
+static void	set_pos(t_stack **s, int val)
+{
+	t_stack	*tmp;
+	int		i;
 
-//everthing about ops
-void	check_ops(char *op, t_stack **a, t_stack **b);
-void	do_ops(char *op, t_stack **a, t_stack **b);
+	i = 1;
+	tmp = *s;
+	while (tmp->val != val)
+	{
+		if (tmp->val > val)
+			tmp->pos++;
+		else
+			++i;
+		tmp = tmp->next;
+	}
+	tmp->pos = i;
+}
 
-//show result KO OK
-void	show_result(t_stack **a, t_stack **b);
+void	pre_set_position(t_stack **s)
+{
+	t_stack	*tmp;
 
-void	free_everything(char *ops, t_stack **a, t_stack **b);
-
-#endif
+	tmp = *s;
+	while (tmp)
+	{
+		set_pos(s, tmp->val);
+		tmp = tmp->next;
+	}
+}
